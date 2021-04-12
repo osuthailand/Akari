@@ -1,0 +1,12 @@
+/* edits for tabler */
+.nav-item {
+    border-left: 2px solid var(--tblr-secondary);
+}
+
+.nav-item.active {
+    border-left: 2px solid var(--tblr-azure)!important;
+}
+
+.nav-item.active>a>span>svg {
+    color: #72bfff;
+}

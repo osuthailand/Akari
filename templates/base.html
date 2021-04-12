@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %} | ainu</title>
+
+        <link rel="stylesheet" href="https://unpkg.com/@tabler/core@latest/dist/css/tabler.min.css">
+        <link rel="stylesheet" href="/src/css/lunar.css?{{ unixNano() }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="https://kit.fontawesome.com/fdf0b80f23.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="antialiased theme-dark">
+        <div class="wrapper">
+            {% include "layouts/sidebar.html" %}
+            
+            {% block content %}{% endblock content %}
+        </div>
+
+        <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
+    </body>
+</html>
