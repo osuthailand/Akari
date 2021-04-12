@@ -1,11 +1,13 @@
 from starlette_authlib.middleware import AuthlibMiddleware as SessionMiddleware
-from starlette.applications import Starlette
+from prerender_python_starlette import PrerenderMiddleware
 from starlette.staticfiles import StaticFiles
+from starlette.applications import Starlette
 from starlette.routing import Mount, Route
-from config import config
 from globals import Globals
-from events import web
+from config import config
 from objects import glob
+from events import web
+import uvicorn
 import cmyui
 import os
 
@@ -16,16 +18,13 @@ routes = [
     Route(r["url"], endpoint=r["cb"], methods=r["methods"]) for r in glob.route_map
 ]
 
-
+# Mount static folder
 routes.append(Mount('/src', StaticFiles(directory="static")))
 
 async def startup():
     # inject all global functions
     # into jinja :smirk:
     Globals(web.jinja).init()
-    for r in glob.route_map:
-        print(r["cb"].__name__)
-
 
     # connect to the mysql
     glob.db = cmyui.AsyncSQLPool()
@@ -36,3 +35,6 @@ app = Starlette(routes=routes, on_startup=[startup])
 # add the session middleware.
 # this is used for logins.
 app.add_middleware(SessionMiddleware, secret_key=os.urandom(24))
+
+if __name__ == '__main__':
+    uvicorn.run("server:app", host="127.0.0.1", port=3000, loop="uvloop")

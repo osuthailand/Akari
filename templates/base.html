@@ -9,9 +9,11 @@
 
         <script src="https://kit.fontawesome.com/fdf0b80f23.js" crossorigin="anonymous"></script>
     </head>
-    <body class="antialiased theme-dark">
+    <body class="antialiased theme-dark {% if not request.session %}nicht-overflow{% endif %}">
         <div class="wrapper">
-            {% include "layouts/sidebar.html" %}
+            {% if request.session %}
+                {% include "layouts/sidebar.html" %}
+            {% endif %}
             
             {% block content %}{% endblock content %}
         </div>

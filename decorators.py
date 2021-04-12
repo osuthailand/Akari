@@ -23,9 +23,9 @@ def user_test(cb: Callable):
         @wraps(f)
         async def wrapper(req: Request, *args, **kwargs):
             if not req["session"]:
-                return RedirectResponse(url="/", status_code=303)
+                return RedirectResponse("/login")
 
-            return cb(req, *args, **kwargs)
+            return await cb(req, *args, **kwargs)
 
         return wrapper
 

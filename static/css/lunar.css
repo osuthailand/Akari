@@ -1,4 +1,8 @@
 /* edits for tabler */
+.nicht-overflow {
+    overflow: hidden;
+} 
+
 .nav-item {
     border-left: 2px solid var(--tblr-secondary);
 }
@@ -9,4 +13,22 @@
 
 .nav-item.active>a>span>svg {
     color: #72bfff;
+}
+
+.form-control {
+    border: 1px solid #37495f;
+}
+
+.form-control:focus {
+    border: 1px solid #38557c!important;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px!important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active
+{
+ -webkit-box-shadow: 0 0 0 30px #1f2936 inset !important;
+ -webkit-text-fill-color: #fff;
 }
