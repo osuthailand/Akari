@@ -1,5 +1,5 @@
+from starlette.responses import Response, RedirectResponse
 from starlette.templating import Jinja2Templates
-from starlette.responses import Response
 from decorators import web, login_required
 from starlette.requests import Request
 from objects.privileges import Privileges
@@ -7,8 +7,6 @@ from objects import glob
 import hashlib
 import bcrypt
 
-# install jinja and make
-# the directory to /akari/templates
 jinja = Jinja2Templates(directory='templates')
 
 @web(url="/")
@@ -16,12 +14,18 @@ jinja = Jinja2Templates(directory='templates')
 async def homepage(req: Request):
     return jinja.TemplateResponse('index.html', {'request': req})
 
-@web(url="/login", methods=["GET", "POST"])
+@web(url="/login")
 async def login(req: Request):
+    if req.session:
+        return RedirectResponse(req.url_for("homepage"))
+        
     return jinja.TemplateResponse('login.html', {'request': req})
 
 @web(url="/submit/login", methods=["POST"])
 async def _login(req: Request):
+    if req.session:
+        return Response("HAS AUTH")
+
     data = await req.form()
 
     if not (user := await glob.db.fetch(
@@ -45,4 +49,12 @@ async def _login(req: Request):
         "id": user["id"],
         "priv": user["privileges"],
     })
+    return Response("OK")
+
+@web(url="/logout", methods=["POST"])
+async def logout(req: Request):
+    if not req.session:
+        return Response("NO AUTH")
+
+    req.session.clear()
     return Response("OK")

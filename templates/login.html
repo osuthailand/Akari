@@ -2,9 +2,9 @@
 {% block title %}login{% endblock title %}
 
 {% block content %}
-<div class="page page-center nicht-overflow">
+<div class="page page-center" id="root">
     <div class="container-tight py-4">
-        <form class="card card-md" action="/submit/login" method="POST" autocomplete="on">
+        <form class="card card-md" autocomplete="on" @submit.prevent="handleSubmit">
             <div class="card-body">
                 <span class="card-title text-center mb-4">
                     <img src="/src/images/poggers.gif">
@@ -12,19 +12,22 @@
                 </span>
                 <div class="mb-3">
                     <label class="form-label">Username</label>
-                    <input type="text" class="form-control" name="user" placeholder="Enter username" autocomplete="on">
+                    <input type="text" :class="'form-control '+(!error.username ? '' : 'is-invalid')" name="user" placeholder="Enter username" autocomplete="on" v-model="username" id="username">
+                    <div class="invalid-feedback" v-show="error.username">[[ error.message ]]</div>
                 </div>
                 <div class="mb-2">
                     <label class="form-label">
                         Password
                     </label>
-                    <input type="password" class="form-control" name="pwd" placeholder="Password" autocomplete="on">
+                    <input type="password" :class="'form-control '+(!error.password ? '' : 'is-invalid')" name="pwd" placeholder="Password" autocomplete="on" v-model="password" id="password">
+                    <div class="invalid-feedback" v-show="error.password">[[ error.message ]]</div>
                 </div>
                 <div class="form-footer">
-                    <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                    <button type="submit" class="btn btn-primary w-100 submit">Sign in</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+<script src="/src/js/pages/login.js?{{ unixNano() }}"></script>
 {% endblock content %}
