@@ -1,4 +1,10 @@
 /* edits for tabler */
+@font-face {
+    font-family: OsuDiffFont;
+    src: url(/src/fonts/osu-diff.ttf) format("truetype")
+}
+
+
 .nicht-overflow {
     overflow: hidden;
 } 
@@ -24,6 +30,10 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px!important;
 }
 
+.row.profile {
+    margin-bottom: 30px;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -31,4 +41,72 @@ input:-webkit-autofill:active
 {
  -webkit-box-shadow: 0 0 0 30px #1f2936 inset !important;
  -webkit-text-fill-color: #fff;
+}
+
+.text-muted, .empty-icon {
+    color: #94aed0!important;
+}
+
+.beatmap-body {
+    background-color: #2f3a49!important;
+}
+
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.beatmap-distance {
+    margin: 5px 0;
+}
+
+.diff-expert {
+    color: rgb(136, 102, 238)!important;
+}
+
+.diff-insane {
+    color: rgb(255, 102, 170)!important;
+}
+
+.diff-hard {
+    color: rgb(255, 204, 34)!important;
+}
+
+.diff-normal {
+    color: rgb(102, 204, 255)!important;
+}
+
+.diff-easy {
+    color: rgb(136, 179, 0)!important;
+}
+
+.osu-diff {
+    font-family: OsuDiffFont;
+    font-size: 18px;
+    margin-right: 2px;
+}
+
+.mode-osu:before {
+    content: ""
+}
+
+.mode-fruits:before {
+    content: ""
+}
+
+.mode-mania:before {
+    content: ""
+}
+
+.mode-taiko:before {
+    content: ""
+}
+
+.osu-difficulties {
+    display: flex;
+}
+
+.card-title.penis {
+    margin: 0;
 }

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}rank beatmaps manually{% endblock title %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                      Rank beatmaps manually
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body" id="rank_manual">
+        <div class="container-xl">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="input-icon">
+                                <input type="text" class="form-control form-control-rounded" placeholder="Search for beatmaps with their IDs" v-model="input" @keyup="fetchBeatmaps">
+                                <span class="input-icon-addon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="10" cy="10" r="7"></circle>
+                                        <line x1="21" y1="21" x2="15" y2="15"></line>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="empty" v-if="!beatmaps">
+                                <div class="empty-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-sad" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <line x1="9" y1="10" x2="9.01" y2="10"></line>
+                                        <line x1="15" y1="10" x2="15.01" y2="10"></line>
+                                        <path d="M9.5 15.25a3.5 3.5 0 0 1 5 0"></path>
+                                    </svg>
+                                </div>
+                                <p class="empty-title">No results found</p>
+                                <p class="empty-subtitle text-muted">
+                                    There was no results found in our database with your current search.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row row-deck" v-if="beatmaps">
+                            <div class="col-md-4 beatmap-distance" v-for="map in beatmaps">
+                                <div class="card d-flex flex-column">
+                                    <a href="#">
+                                        <img class="card-img-top" :src="'https://assets.ppy.sh/beatmaps/' + map.SetId + '/covers/card.jpg?{{ unixNano() }}'">
+                                    </a>
+                                    <div class="card-body d-flex flex-column beatmap-body">
+                                        <h3 class="card-title penis" maxlength="15"><a href="https://osu.ppy.sh/b/[[ map.SetId ]]">[[ map.Artist ]] - [[ map.Title ]]</a></h3>
+                                        <div class="osu-difficulties">
+                                            <span :class="'osu-diff '+get_diff_color(ava.DifficultyRating, ava.Mode)" v-for="ava in map.ChildrenBeatmaps"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/src/js/pages/manual.js?{{ unixNano() }}"></script>
+</div>
+{% endblock content %}

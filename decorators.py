@@ -1,5 +1,6 @@
 from typing import Callable
 from objects import glob
+from objects.responses import ajson
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
 from functools import wraps
@@ -18,7 +19,7 @@ def web(url: str, methods: list = ["GET"]) -> Callable:
 
     return callback
 
-def user_test(cb: Callable):
+def login_test(cb: Callable):
     def decorator(f):
         @wraps(f)
         async def wrapper(req: Request, *args, **kwargs):
@@ -32,9 +33,22 @@ def user_test(cb: Callable):
     return decorator
 
 def login_required(cb: Callable) -> Callable:
-    check = user_test(cb)
+    check = login_test(cb)
     
     if check:
         return check(cb)
 
     return check
+
+def required_params(params: list[str]):
+    def decorator(cb: Callable):
+        @wraps(cb)
+        async def wrapper(req: Request, *args, **kwargs):
+            if not all(x in req.query_params for x in params):
+                return ajson({"error": "missing params"})
+
+            return await cb(req, *args, **kwargs)
+
+        return wrapper
+
+    return decorator

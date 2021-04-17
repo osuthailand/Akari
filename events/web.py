@@ -11,7 +11,7 @@ jinja = Jinja2Templates(directory='templates')
 
 @web(url="/")
 @login_required
-async def homepage(req: Request):
+async def dashboard(req: Request):
     return jinja.TemplateResponse('index.html', {'request': req})
 
 @web(url="/login")
@@ -51,10 +51,21 @@ async def _login(req: Request):
     })
     return Response("OK")
 
-@web(url="/logout", methods=["POST"])
-async def logout(req: Request):
-    if not req.session:
-        return Response("NO AUTH")
 
+@web(url="/logout", methods=["POST"])
+@login_required
+async def logout(req: Request):
     req.session.clear()
     return Response("OK")
+
+
+@web(url="/beatmaps/manually")
+@login_required
+async def rank_manually(req: Request):
+    return jinja.TemplateResponse("rank_manually.html", {"request": req})
+
+
+@web(url="/events")
+@login_required
+async def events(req: Request):
+    return jinja.TemplateResponse("events.html", {"request": req})
