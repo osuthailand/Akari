@@ -2,17 +2,185 @@
 {% block title %} dashboard {% endblock title %}
 
 {% block content %}
-<div class="page-wrapper">
+<div class="page-wrapper" id="dashboard">
     <div class="container-xl">
         <div class="page-header d-print-none">
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                      Dashboard
+                        Dashboard
                     </h2>
                 </div>
             </div>
         </div>
     </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body" style="position: relative;">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader text-teal">Active users</div>
+                            </div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="h1 mb-3 me-2">[[ active_users+1 ]]</div>
+                            </div>
+                        </div>
+                        <div id="active-user-graph" class="chart-sm"></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body" style="position: relative;">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader text-red">Registered users</div>
+                            </div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="h1 mb-3 me-2">[[ registered_users ]]</div>
+                            </div>
+                        </div>
+                        <div id="registered-user-graph" class="chart-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="/src/js/pages/dashboard.js?{{ unixNano() }}"></script>
+<script>
+    var options = {
+        chart: {
+            type: "area",
+            fontFamily: 'inherit',
+            height: 40.0,
+            sparkline: {
+                enabled: true
+            },
+            animations: {
+                enabled: false
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        fill: {
+            opacity: .16,
+            type: 'solid',
+        },
+        stroke: {
+            width: 2,
+            lineCap: "round",
+            curve: "smooth",
+        },
+        series: [{
+            name: "Registered users",
+            data:   [{% for row in graph_data %} 
+                        {{ row['registered'] }},
+                    {% endfor %}],
+                    }],
+        grid: {
+            strokeDashArray: 4,
+        },
+        xaxis: {
+            labels: {
+                padding: 0,
+            },
+            tooltip: {
+                enabled: false
+            },
+            axisBorder: {
+                show: false,
+            },
+        },
+        yaxis: {
+            labels: {
+                padding: 4
+            },
+        },
+        labels: [
+        {% for row in graph_data %} 
+            "{{ row['label'] }}",
+        {% endfor %}],
+        colors: ["#d63939"],
+        legend: {
+            show: false,
+        },
+        theme: {
+            mode: 'dark', 
+        }
+    }
+    
+    var chart = new ApexCharts(document.querySelector("#registered-user-graph"), options);
+    
+    chart.render();
+</script>
+<script>
+    var options = {
+        chart: {
+            type: "area",
+            fontFamily: 'inherit',
+            height: 40.0,
+            sparkline: {
+                enabled: true
+            },
+            animations: {
+                enabled: false
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        fill: {
+            opacity: .16,
+            type: 'solid',
+        },
+        stroke: {
+            width: 2,
+            lineCap: "round",
+            curve: "smooth",
+        },
+        series: [{
+            name: "Active users",
+            data:   [{% for row in graph_data %} 
+                        {{ row['users'] }},
+                    {% endfor %}],
+                    }],
+        grid: {
+            strokeDashArray: 4,
+        },
+        xaxis: {
+            reversed: true,
+            labels: {
+                padding: 0,
+            },
+            tooltip: {
+                enabled: false
+            },
+            axisBorder: {
+                show: false,
+            },
+        },
+        yaxis: {
+            labels: {
+                padding: 4
+            },
+        },
+        labels: [
+        {% for row in graph_data %} 
+            "{{ row['label'] }}",
+        {% endfor %}],
+        colors: ["#0ca678"],
+        legend: {
+            show: false,
+        },
+        theme: {
+            mode: 'dark', 
+        }
+    }
+    
+    var chart = new ApexCharts(document.querySelector("#active-user-graph"), options);
+    
+    chart.render();
+</script>
 {% endblock content %}

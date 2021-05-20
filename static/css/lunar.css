@@ -4,6 +4,9 @@
     src: url(/src/fonts/osu-diff.ttf) format("truetype")
 }
 
+.apexcharts-svg {
+    background: none!important;
+}
 
 .nicht-overflow {
     overflow: hidden;

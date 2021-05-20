@@ -2,17 +2,23 @@ from starlette.responses import Response, RedirectResponse
 from starlette.templating import Jinja2Templates
 from decorators import web, login_required
 from starlette.requests import Request
-from objects.privileges import Privileges
+from constants.privileges import Privileges
 from objects import glob
+import aiohttp
 import hashlib
 import bcrypt
+import orjson
 
 jinja = Jinja2Templates(directory='templates')
 
 @web(url="/")
 @login_required
 async def dashboard(req: Request):
-    return jinja.TemplateResponse('index.html', {'request': req})
+    async with aiohttp.ClientSession() as sess:
+        async with sess.get("https://admin.ainu.pw/api/bancho_graph") as resp:
+            graph_data = orjson.loads(await resp.read())
+
+    return jinja.TemplateResponse('index.html', {'request': req, 'graph_data': graph_data})
 
 @web(url="/login")
 async def login(req: Request):
@@ -63,9 +69,3 @@ async def logout(req: Request):
 @login_required
 async def rank_manually(req: Request):
     return jinja.TemplateResponse("rank_manually.html", {"request": req})
-
-
-@web(url="/events")
-@login_required
-async def events(req: Request):
-    return jinja.TemplateResponse("events.html", {"request": req})
