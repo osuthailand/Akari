@@ -11,4 +11,4 @@ Some stuff isn't available on other private servers, since this AP has custom st
 
 plz contribute to make code or speed better :thumbsup:
 
-*shit is made in python3.9, with starlette jinja2 starlette_sessions bcrypt aiohttp orjson uvloop (i think) and that's it, i think*
+*shit is made in python3.9, with starlette jinja2 starlette_sessions bcrypt aiohttp orjson uvloop cmyui and that's it, i think*
