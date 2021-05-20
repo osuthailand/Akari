@@ -8,3 +8,5 @@ Not much to say other than, that **this admin panel is still in heavily developm
 I got a TODO list, but I'm too lazy right now, to paste it :trollface:
 
 Some stuff isn't available on other private servers, since this AP has custom stuff, such as, registered and active users graph. also private db stuff.
+
+plz contribute to make code or speed better :thumbsup:
