@@ -8,9 +8,6 @@ class Globals():
     def unixNano(self):
         return int(time.time())
 
-    def fetch(self, query: str, params = None):
-        return glob.db.fetch(query, params)
-
     def init(self):
         for obj in dir(self):
             if obj.startswith("__") and obj.endswith("__") or obj == "init" or obj == "jinja":

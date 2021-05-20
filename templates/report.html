@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %} reports {% endblock title %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        Reports
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive" style="margin-bottom: none!important;">
+                            <table class="table table-vcenter card-table">
+                                <thead>
+                                    <th>ID</th>
+                                    <th>Reported</th>
+                                    <th>Reported by</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                    <th class="wd-1"></th>
+                                    <th>Time</th>
+                                </thead>
+                                <tbody>
+                                    {% for user in reports %}
+                                    <tr>
+                                        <td>{{ user.id }}</td>
+                                        <td>
+                                            <div class="d-flex py-1 align-items-center">
+                                                <span class="avatar me-2 avatar-sm avatar-rounded" style="background-image: url('https://a.ainu.pw/{{ user.to_uid }}')"></span>
+                                                <div class="flex-fill">
+                                                    <a href="https://ainu.pw/u/{{ user.to_uid }}" class="font-weight-medium text-muted">{{ user.reported_username }}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex py-1 align-items-center">
+                                                <span class="avatar me-2 avatar-sm avatar-rounded" style="background-image: url('https://a.ainu.pw/{{ user.from_uid }}')"></span>
+                                                <div class="flex-fill">
+                                                    <a href="https://ainu.pw/u/{{ user.from_uid }}" class="font-weight-medium text-muted">{{ user.username }}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-muted">
+                                            {{ user.reason }}
+                                        </td>
+                                        {% if user.assigned == "NOT CHECKED" %}
+                                        <td class="text-red">
+                                        {% elif user.assigned == "INVALID" %}
+                                        <td class="text-yellow">
+                                        {% else %}
+                                        <td class="text-teal">
+                                        {% endif %}
+                                            {{ user.assigned }}
+                                        </td>
+                                        <td>
+                                            <a href="/reported/{{ user.to_uid }}">Check</a>
+                                        </td>
+                                        <td class="text-muted">
+                                            {{ user.time }}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
